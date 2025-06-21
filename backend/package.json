@@ -2,9 +2,10 @@
   "name": "milestone-tracker",
   "version": "1.0.0",
   "description": "milestone tracker for those who are plannig for a baby",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
   },
   "keywords": [
     "milestone",
@@ -17,7 +18,10 @@
   "author": "Santosh Bhardwaj",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.0"
   }
 }

@@ -30,6 +30,6 @@ const milestoneSchema = new mongoose.Schema({
 }
 )
 
-const Milestone = mongoose.model(milestoneSchema);
+const Milestone = mongoose.model("Milestone", milestoneSchema);
 
 module.exports = Milestone;

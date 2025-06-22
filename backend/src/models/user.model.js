@@ -52,7 +52,7 @@ userSchema.methods.generateAccessToken = function() {
     return jwt.sign(
         {id: this._id, username: this.username},
         process.env.JWT_ACCESS_TOKEN_SECRET,
-        {expiresIn: process.env.JWT_ACCESS_EXPIRATION_MINUTES}
+        {expiresIn: `${process.env.JWT_ACCESS_EXPIRATION_MINUTES}m`}
     )
 }
 
@@ -60,7 +60,7 @@ userSchema.methods.generateRefreshToken = function() {
     return jwt.sign(
         {id: this._id},
         process.env.JWT_REFRESH_TOKEN_SECRET,
-        {expiresIn: process.env.JWT_REFRESH_EXPIRATION_DAYS}
+        {expiresIn: `${process.env.JWT_REFRESH_EXPIRATION_DAYS}d`}
     )
 }
 

@@ -1,49 +1,59 @@
-const { addMilestone, getMilestones, updateMilestone, deleteMilestone } = require("../services/milestone.service");
+const MilestoneService = require("../services/milestone.service");
 
-const createMilestone = async (req, res) => {
-    const {title, date, note} = req.body;
-    if (!title?.trim() || !date) {
+class MilestoneController {
+  async create(req, res) {
+    try {
+      const { title, date, note } = req.body;
+      if (!title?.trim() || !date) {
         return res.status(400).json({ message: "Title and date are required" });
-    }
+      }
 
-    try {
-        const newMilestone = await addMilestone(title, date, note, req.user);
-        return res.status(201).json({message: "Success", milestone: newMilestone});
+      const newMilestone = await MilestoneService.addMilestone(title, date, note, req.user);
+      return res.status(201).json({ message: "Success", milestone: newMilestone });
     } catch (error) {
-        return res.status(500).json({message: "Internal server error", error: error.message});
+      return res.status(500).json({
+        message: "Internal server error",
+        error: error.message,
+      });
     }
-}
+  }
 
-const getAllMilestones = async (req, res) => {
+  async getAll(req, res) {
     try {
-        const result = await getMilestones();
-        return res.status(200).json({message: "Success", data: result});
+      const milestones = await MilestoneService.getAllMilestones();
+      return res.status(200).json({ message: "Success", data: milestones });
     } catch (error) {
-        return res.status(500).json({message: "Internal server error", error: error.message});
+      return res.status(500).json({ message: "Internal server error", error: error.message });
     }
-}
+  }
 
-const editMilestone = async (req, res) => {
+  async getPersonal(req, res) {
+    console.log(req.user);
     try {
-        const result = await updateMilestone(req.body, req.params.id);
-        return res.status(200).json({message: "Success", result});
+      const milestones = await MilestoneService.getUserMilestones(req.user._id);
+      return res.status(200).json({ message: "Success", personalMilestones: milestones });
     } catch (error) {
-        return res.status(500).json({message: "Internal server error", error: error.message});
+      return res.status(500).json({ message: "Internal server error", error: error.message });
     }
-}
+  }
 
-const deleteItem = async (req, res) => {
+  async update(req, res) {
     try {
-        const deletedItem = await deleteMilestone(req.params.id);
-        return res.status(200).json({message: "Success", deleted_item: deletedItem})
+      const updated = await MilestoneService.updateMilestone(req.body, req.params.id);
+      return res.status(200).json({ message: "Success", result: updated });
     } catch (error) {
-        return res.status(500).json({message: "Internal server error", error: error.message});
+      return res.status(500).json({ message: "Internal server error", error: error.message });
     }
+  }
+
+  async delete(req, res) {
+    try {
+      const deleted = await MilestoneService.deleteMilestone(req.params.id);
+      return res.status(200).json({ message: "Success", deleted_item: deleted });
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  }
 }
 
-module.exports = {
-    createMilestone,
-    getAllMilestones,
-    editMilestone,
-    deleteItem
-}
+module.exports = new MilestoneController();

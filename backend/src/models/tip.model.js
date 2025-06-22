@@ -3,12 +3,6 @@ const mongoose = require('mongoose');
 
 const tipSchema = new mongoose.Schema(
     {
-    milestoneTitle: {
-        type: String,
-        required: true,
-        maxLength: 120
-    },
-
     milestoneId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Milestone',
@@ -21,7 +15,7 @@ const tipSchema = new mongoose.Schema(
         required: true
     },
 
-    content: {
+    tip: {
         type: String,
         required: true,
         maxLength: 500
@@ -43,6 +37,6 @@ const tipSchema = new mongoose.Schema(
     }
 });
 
-const Tip = mongoose.model(tipSchema);
+const Tip = mongoose.model("Tip", tipSchema);
 
 module.exports = Tip;

@@ -14,7 +14,7 @@ const verifyJwt = async (req, res, next) => {
         if(!user) {
             return res.status(401).json({message: "Invalid access token"});
         }
-    
+        
         req.user = user;
         next();
     } catch (error) {

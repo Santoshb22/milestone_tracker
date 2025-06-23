@@ -8,10 +8,10 @@ const router = express.Router();
 router.post("/", verifyJwt, MilestoneController.create);
 router.put("/:id", verifyJwt, MilestoneController.update);
 router.get("/personal", verifyJwt, MilestoneController.getPersonal)
-router.get("/", verifyJwt, MilestoneController.getAll);
+router.get("/", MilestoneController.getAll);
 router.delete("/:id", verifyJwt, MilestoneController.delete);
 
-router.get("/:id/tips", verifyJwt, tipController.getTips); 
+router.get("/:id/tips", tipController.getTips); 
 router.post("/:id/tips", verifyJwt, tipController.create); 
 
 module.exports = router;

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { validateAuthForm } from '../../utils/validateForm';
 import Button from './Button';
 import { AuthContext } from '../../contextApi/AuthContext';
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,11 +11,8 @@ const Login = () => {
   })
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
-  const {login, authStatus} = useContext(AuthContext);
-
-  console.log(authStatus);
-
-
+  const {login} = useContext(AuthContext);
+  const navigate = useNavigate()
   const handleChange = (e) => {
     const {name, value} = e.target;
     setFormData(prev => ({
@@ -49,7 +47,7 @@ const Login = () => {
       }
 
       login(data.result?.user, data.result?.tokens?.accessToken);
-
+      navigate("/");
       setFormData({
       username: "",
       password: ""

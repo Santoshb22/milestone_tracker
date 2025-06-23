@@ -32,4 +32,4 @@ class UserService {
   }
 }
 
-module.exports = new UserService(); // export instance
+module.exports = new UserService(); 

@@ -1,4 +1,3 @@
-// models/Tip.js
 const mongoose = require('mongoose');
 
 const tipSchema = new mongoose.Schema(
@@ -26,10 +25,12 @@ const tipSchema = new mongoose.Schema(
         default: 0
     },
 
-    dislikes: {
-        type: Number,
-        default: 0
-    },
+    upvoteBy: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
 
     createdAt: {
         type: Date,

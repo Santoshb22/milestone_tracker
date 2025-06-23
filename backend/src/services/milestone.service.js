@@ -1,5 +1,6 @@
 const Milestone = require("../models/milestone.model");
 const User = require("../models/user.model");
+const checkOwnership = require("../utils/checkOwnership");
 
 class MilestoneService {
   async addMilestone(title, date, note = "", user) {
@@ -17,17 +18,19 @@ class MilestoneService {
     return await Milestone.find({ userId });
   }
 
-  async updateMilestone(data, id) {
+  async updateMilestone(data, id, userId) {
     const milestone = await Milestone.findById(id);
     if (!milestone) throw new Error("Milestone ID is incorrect");
+
+    checkOwnership(milestone.userId, userId);
 
     return await Milestone.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async deleteMilestone(id) {
+  async deleteMilestone(id, userId) {
     const milestone = await Milestone.findById(id);
     if (!milestone) throw new Error("Milestone ID is incorrect");
-
+    checkOwnership(milestone.userId, userId);
     return await Milestone.findByIdAndDelete(id);
   }
 }

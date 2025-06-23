@@ -28,7 +28,6 @@ class MilestoneController {
   }
 
   async getPersonal(req, res) {
-    console.log(req.user);
     try {
       const milestones = await MilestoneService.getUserMilestones(req.user._id);
       return res.status(200).json({ message: "Success", personalMilestones: milestones });
@@ -39,7 +38,7 @@ class MilestoneController {
 
   async update(req, res) {
     try {
-      const updated = await MilestoneService.updateMilestone(req.body, req.params.id);
+      const updated = await MilestoneService.updateMilestone(req.body, req.params.id, req.user._id);
       return res.status(200).json({ message: "Success", result: updated });
     } catch (error) {
       return res.status(500).json({ message: "Internal server error", error: error.message });
@@ -48,7 +47,7 @@ class MilestoneController {
 
   async delete(req, res) {
     try {
-      const deleted = await MilestoneService.deleteMilestone(req.params.id);
+      const deleted = await MilestoneService.deleteMilestone(req.params.id, req.user._id);
       return res.status(200).json({ message: "Success", deleted_item: deleted });
     } catch (error) {
       return res.status(500).json({ message: "Internal server error", error: error.message });

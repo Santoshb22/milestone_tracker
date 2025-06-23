@@ -19,7 +19,7 @@ A secure RESTful backend for a pregnancy and parenting milestone tracking app. B
 ## 🚀 Getting Started
 
 ## 1. Clone the repository
-- git clone https://github.com/yourusername/babysteps-backend.git
+- git clone https://github.com/Santoshb22/milestone_tracker.git
 - cd backend
 - npm install
 

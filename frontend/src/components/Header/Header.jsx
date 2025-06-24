@@ -4,9 +4,10 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { AuthContext } from '../../contextApi/AuthContext';
 import HeaderButton from './HeaderButton';
 import { Link } from 'react-router';
+import Button from '../Authentication/Button';
 
 const Header = () => {
-    const {user, authStatus} = useContext(AuthContext);
+    const {user, authStatus, logout} = useContext(AuthContext);
 
   return (
     <header className='flex justify-between items-center p-5 bg-blue-100'>
@@ -27,6 +28,7 @@ const Header = () => {
             <p className='text-2xl'>
                 {user.username}
             </p>
+            <Button text = "Log out" onClick = {logout}/>
         </div>
         ) : (
             <div>

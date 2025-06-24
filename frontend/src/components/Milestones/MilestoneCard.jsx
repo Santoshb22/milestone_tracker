@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contextApi/AuthContext';
+import {useNavigate} from "react-router-dom";
 
 const MilestoneCard = ({ data }) => {
   const { title, date, note } = data;
@@ -8,10 +9,16 @@ const MilestoneCard = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const {token} = useContext(AuthContext);
-
+  const navigate = useNavigate();
+  const {authStatus} = useContext(AuthContext);
 
   const handleCommentSubmit = async (e) => {
   e.preventDefault();
+
+  if(!authStatus){
+    alert("Authentication required for this action.");
+    navigate("/register")
+  }
   setError(""); 
 
   if (!tipInput.trim()) {

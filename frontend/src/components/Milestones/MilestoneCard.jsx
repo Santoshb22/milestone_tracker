@@ -3,6 +3,7 @@ import { AuthContext } from '../../contextApi/AuthContext';
 import {useNavigate} from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
+import { baseURL } from '../../config/config';
 
 const MilestoneCard = ({ data, action, deleteMilestone, startEdit}) => {
   const { title, date, note } = data;
@@ -33,7 +34,7 @@ const MilestoneCard = ({ data, action, deleteMilestone, startEdit}) => {
   };
 
   try {
-    const postTip = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/${data._id}/tips`, {
+    const postTip = await fetch(`${baseURL}/api/milestones/${data._id}/tips`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -57,7 +58,7 @@ const MilestoneCard = ({ data, action, deleteMilestone, startEdit}) => {
       try {
         setLoading(true);
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/${data._id}/tips`
+          `${baseURL}/milestones/${data._id}/tips`
         );
   
         const tipsData = await res.json();

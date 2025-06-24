@@ -3,6 +3,7 @@ import { AuthContext } from '../../contextApi/AuthContext';
 import MilestoneCard from './MilestoneCard';
 import { IoIosAdd } from "react-icons/io";
 import AddMilestoneForm from './AddMilestoneForm';
+import { baseURL } from '../../config/config';
 
 const PersonalMilestones = () => {
     const [data, setData] = useState([]);
@@ -16,7 +17,7 @@ const PersonalMilestones = () => {
     const fetchPersonalMilestone = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/personal`, {
+            const res = await fetch(`${baseURL}/api/milestones/personal`, {
                 headers: {
                     "Authorization": `Bearer ${token}` 
                 }
@@ -35,7 +36,7 @@ const PersonalMilestones = () => {
   
     const deleteMilestone = async (milestoneId) => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/${milestoneId}`, {
+        const res = await fetch(`${baseURL}/api/milestones/${milestoneId}`, {
           method: "DELETE",
           headers: {
             "Authorization":`Bearer ${token}`,
@@ -53,7 +54,7 @@ const PersonalMilestones = () => {
 
     const handleEditMilestone = async (milestoneId, updatedData) => {
         try {
-          const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/${milestoneId}`, {
+          const res = await fetch(`${baseURL}/api/milestones/${milestoneId}`, {
             method: "PUT",
             headers: {
               "Authorization": `Bearer ${token}`,

@@ -3,6 +3,7 @@ import { validateAuthForm } from '../../utils/validateForm';
 import Button from './Button';
 import { AuthContext } from '../../contextApi/AuthContext';
 import {useNavigate} from "react-router-dom";
+import { baseURL } from '../../config/config';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/auth/login`, {
+      const response = await fetch(`${baseURL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

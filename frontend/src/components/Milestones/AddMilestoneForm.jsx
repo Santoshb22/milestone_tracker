@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contextApi/AuthContext';
+import { baseURL } from '../../config/config';
 
 const AddMilestoneForm = ({setData, setShowAddForm, editData = null, isEdit = false, onUpdate, clearEditData}) => {
   const [formData, setFormData] = useState({
@@ -36,7 +37,7 @@ const AddMilestoneForm = ({setData, setShowAddForm, editData = null, isEdit = fa
           clearEditData();
         } else {
         try {
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones`,{
+            const res = await fetch(`${baseURL}/api/milestones`,{
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

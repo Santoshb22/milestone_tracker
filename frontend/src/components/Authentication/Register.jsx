@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { validateAuthForm } from '../../utils/validateForm';
 import Button from './Button';
+import { baseURL } from '../../config/config';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ const Register = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/auth/register`, {
+      const response = await fetch(`${baseURL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

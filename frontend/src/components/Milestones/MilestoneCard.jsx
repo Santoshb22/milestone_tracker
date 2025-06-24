@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contextApi/AuthContext';
 import {useNavigate} from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
+import { AiOutlineDelete } from "react-icons/ai";
 
-const MilestoneCard = ({ data }) => {
+const MilestoneCard = ({ data, action, deleteMilestone, startEdit}) => {
   const { title, date, note } = data;
   const [tipInput, setTipInput] = useState("");     
   const [tips, setTips] = useState([]);             
@@ -77,7 +79,6 @@ const MilestoneCard = ({ data }) => {
       <p className="text-sm text-gray-500 mb-1">📅 {new Date(date).toLocaleDateString()}</p>
       <p className="text-gray-700 mb-4">{note}</p>
 
-      {/* Tip form */}
       <form onSubmit={handleCommentSubmit} className="mt-4">
         <label htmlFor="tip" className="block text-sm font-medium text-gray-700 mb-1">
           Add a tip
@@ -116,6 +117,25 @@ const MilestoneCard = ({ data }) => {
           <p className="text-sm text-gray-500">No tips yet.</p>
         )}
       </div>
+      {action && (
+        <div className="edit-delete flex gap-4 my-2">
+          <button
+            onClick={() => startEdit()}
+            className="cursor-pointer flex items-center gap-1 border border-pink-600 hover:bg-pink-200 p-2 rounded"
+          >
+            Edit
+            <FaEdit />
+          </button>
+          <button
+            onClick={() => deleteMilestone(data._id)}
+            className="cursor-pointer flex items-center gap-1 border border-pink-600 hover:bg-pink-200 p-2 rounded"
+          >
+            Delete
+            <AiOutlineDelete />
+          </button>
+        </div>
+      )}
+
     </div>
   );
 };

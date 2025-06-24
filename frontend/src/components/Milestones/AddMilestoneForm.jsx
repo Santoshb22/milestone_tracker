@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contextApi/AuthContext';
 
-const AddMilestoneForm = ({setData, setShowAddForm}) => {
+const AddMilestoneForm = ({setData, setShowAddForm, editData = null, isEdit = false, onUpdate, clearEditData}) => {
   const [formData, setFormData] = useState({
     title: '',
     date: '',
@@ -9,6 +9,16 @@ const AddMilestoneForm = ({setData, setShowAddForm}) => {
   })
   const {token} = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+
+   useEffect(() => {
+    if (isEdit && editData) {
+      setFormData({
+        title: editData.title,
+        date: editData.date,
+        note: editData.note
+      });
+    }
+  }, [editData, isEdit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,29 +29,36 @@ const AddMilestoneForm = ({setData, setShowAddForm}) => {
     e.preventDefault();
 
     setLoading(true);
-    try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones`,{
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData),
-        });
-        if(!res.ok) throw new Error("Failed to create milestone");
-        const addedMilestone = await res.json();
-        setData(prev => [...prev, addedMilestone.milestone])
-        setShowAddForm(false);
-        alert("Milestone Created successfully");
-        setFormData({
-            title: '',
-            date: '',
-            note: ''
-        })
-    } catch (error) {
-        console.log("Error:", error.message);
-    } finally {
-        setLoading(false);
+      if (isEdit) {
+          await onUpdate(editData._id, formData);
+          setFormData({ title: '', date: '', note: '' });
+          setShowAddForm(false);
+          clearEditData();
+        } else {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones`,{
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData),
+            });
+            if(!res.ok) throw new Error("Failed to create milestone");
+            const addedMilestone = await res.json();
+            setData(prev => [...prev, addedMilestone.milestone])
+            setShowAddForm(false);
+            alert("Milestone Created successfully");
+            setFormData({
+                title: '',
+                date: '',
+                note: ''
+            })
+        } catch (error) {
+            console.log("Error:", error.message);
+        } finally {
+            setLoading(false);
+        }
     }
   }
 
@@ -96,7 +113,7 @@ const AddMilestoneForm = ({setData, setShowAddForm}) => {
         className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
         disabled = {loading}
       >
-        {loading? "Loading..." : "Add Milestone"}
+        {loading ? "Saving..." : isEdit ? "Update Milestone" : "Add Milestone"}
       </button>
     </form>
   );

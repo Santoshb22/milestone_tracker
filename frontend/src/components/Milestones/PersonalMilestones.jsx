@@ -7,8 +7,11 @@ import AddMilestoneForm from './AddMilestoneForm';
 const PersonalMilestones = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {token} = useContext(AuthContext);
+    const {token, authStatus} = useContext(AuthContext);
     const [showAddForm, setShowAddForm] = useState(false);
+    // const [isEdit, setIsEdit] = useState(false);
+    const [editData, setEditData] = useState(null);
+
     
     const fetchPersonalMilestone = async () => {
         setLoading(true);
@@ -29,8 +32,48 @@ const PersonalMilestones = () => {
         }
     }
 
-    useEffect(() => {
+  
+    const deleteMilestone = async (milestoneId) => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/${milestoneId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization":`Bearer ${token}`,
+          }
+        });
+
+        if(!res.ok) throw new Error("Failed to delete milestone");
+        alert("Milestone deleted sucessfully");
         fetchPersonalMilestone();
+        return;
+      } catch (error) {
+        console.log("Error: ", error.message);
+      }
+    }
+
+    const handleEditMilestone = async (milestoneId, updatedData) => {
+        try {
+          const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/${milestoneId}`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData)
+          });
+
+          if (!res.ok) throw new Error("Failed to update milestone");
+          alert("Milestone updated successfully");
+          fetchPersonalMilestone();
+          setEditData(null);
+        } catch (error) {
+          console.log("Edit Error: ", error.message);
+        }
+      };
+
+
+    useEffect(() => {
+      if(authStatus) fetchPersonalMilestone();
     }, [])
 
   return (
@@ -44,8 +87,17 @@ const PersonalMilestones = () => {
             <IoIosAdd size = {36}/>
             <p>Create Milestone</p>
         </button>
-        <div className={`my-1 ${showAddForm? "block" : "hidden"}`}>
-            <AddMilestoneForm setData = {setData} setShowAddForm = {setShowAddForm}/>
+        <div>
+          {showAddForm && (
+            <AddMilestoneForm
+              setData={setData}
+              setShowAddForm={setShowAddForm}
+              isEdit={!!editData}
+              editData={editData}
+              onUpdate={handleEditMilestone}
+              clearEditData={() => setEditData(null)}
+            />
+          )}
         </div>
       </div>
       {loading ? (
@@ -53,7 +105,16 @@ const PersonalMilestones = () => {
       ) : data.length !== 0 ? (
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {data.map((milestone) => (
-            <MilestoneCard key={milestone._id} data={milestone} />
+            <MilestoneCard
+              key={milestone._id}
+              data={milestone}
+              action={true}
+              deleteMilestone={deleteMilestone}
+              startEdit={() => {
+                setEditData(milestone);
+                setShowAddForm(true);
+              }}
+            />
           ))}
         </div>
       ) : (

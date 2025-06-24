@@ -16,7 +16,7 @@ const PersonalMilestones = () => {
     const fetchPersonalMilestone = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/personal`, {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/personal`, {
                 headers: {
                     "Authorization": `Bearer ${token}` 
                 }
@@ -35,7 +35,7 @@ const PersonalMilestones = () => {
   
     const deleteMilestone = async (milestoneId) => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/${milestoneId}`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/${milestoneId}`, {
           method: "DELETE",
           headers: {
             "Authorization":`Bearer ${token}`,
@@ -53,7 +53,7 @@ const PersonalMilestones = () => {
 
     const handleEditMilestone = async (milestoneId, updatedData) => {
         try {
-          const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/${milestoneId}`, {
+          const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/${milestoneId}`, {
             method: "PUT",
             headers: {
               "Authorization": `Bearer ${token}`,

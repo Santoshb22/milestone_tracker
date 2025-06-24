@@ -33,7 +33,7 @@ const MilestoneCard = ({ data, action, deleteMilestone, startEdit}) => {
   };
 
   try {
-    const postTip = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones/${data._id}/tips`, {
+    const postTip = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones/${data._id}/tips`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,

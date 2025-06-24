@@ -8,7 +8,7 @@ const PublicMilestones = () => {
   const fetchPersonalMilestone = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones`);
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones`);
       const json = await res.json();
       if (!res.ok) throw new Error("Failed to get milestones");
       setData(json.data);

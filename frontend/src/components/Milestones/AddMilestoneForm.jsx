@@ -36,7 +36,7 @@ const AddMilestoneForm = ({setData, setShowAddForm, editData = null, isEdit = fa
           clearEditData();
         } else {
         try {
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/milestones`,{
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_API_ENDPOINT}/api/milestones`,{
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

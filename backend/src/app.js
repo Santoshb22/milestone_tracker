@@ -5,8 +5,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 app.use(cors({
-  origin: "http://localhost:5173",  // ✅ your Vite dev server
-  credentials: true                // ✅ allow cookies
+  origin: "https://milestone-tracker-iota.vercel.app/",  
+  credentials: true        
 }));
 
 app.use(express.urlencoded({extended: true, limit: "16kb"}));
